@@ -1,0 +1,20 @@
+{
+  "name": "lightfield",
+  "version": "1.0.0",
+  "description": "Read and write your Lightfield CRM from the agent, and build integrations against the Lightfield API with the official MCP server, SDKs, and CLI.",
+  "author": {
+    "name": "Lightfield",
+    "url": "https://lightfield.app"
+  },
+  "homepage": "https://docs.lightfield.app",
+  "repository": "https://github.com/Lightfld/lightfield-plugin",
+  "license": "MIT",
+  "keywords": [
+    "lightfield",
+    "lightfield crm",
+    "lightfield api",
+    "crm",
+    "mcp"
+  ],
+  "logo": "assets/logo.svg"
+}

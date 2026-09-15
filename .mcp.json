@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "lightfield": {
+      "type": "http",
+      "url": "https://mcp.lightfield.app/mcp"
+    }
+  }
+}
