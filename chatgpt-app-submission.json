@@ -1,0 +1,140 @@
+{
+  "$schema": "https://developers.openai.com/plugins/schemas/chatgpt-app-submission.v1.json",
+  "schema_version": 1,
+  "app_info": {
+    "display_name": "Lightfield",
+    "subtitle": "Work with your Lightfield CRM",
+    "description": "Find and update CRM records, prepare account briefings, import data safely, and build integrations with Lightfield's official MCP server and API.",
+    "category": "BUSINESS"
+  },
+  "tools": {
+    "get_current_user": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Returns the authenticated member's identity and role without changing state.",
+        "open_world_justification": "Reads only the authenticated member within a bounded private Lightfield workspace.",
+        "destructive_justification": "Cannot create, update, delete, send, or trigger an external action."
+      }
+    },
+    "search_lightfield_api_docs": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": true,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Retrieves documentation and does not change state.",
+        "open_world_justification": "Fetches current content from the public docs.lightfield.app website, constrained to Lightfield's first-party documentation.",
+        "destructive_justification": "Cannot change CRM data or external state."
+      }
+    },
+    "get_lightfield_api_details": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": true,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Retrieves one documentation page and does not change state.",
+        "open_world_justification": "Fetches current content from the public docs.lightfield.app website using a validated catalog path.",
+        "destructive_justification": "Cannot change CRM data or external state."
+      }
+    },
+    "read_from_lightfield": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Permits only authorized REST GET operations.",
+        "open_world_justification": "Access is limited to data in the authenticated member's bounded private Lightfield workspace.",
+        "destructive_justification": "Cannot change data or initiate external actions."
+      }
+    },
+    "write_to_lightfield": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": true,
+        "destructiveHint": true
+      },
+      "justifications": {
+        "read_only_justification": "Performs authorized REST POST operations that can create or update durable CRM state.",
+        "open_world_justification": "The generic POST surface includes outward-facing actions such as sending email to external recipients.",
+        "destructive_justification": "Supported POST endpoints include permanent merges, email sends, and other writes that can be difficult or impossible to undo."
+      }
+    }
+  },
+  "test_cases": [
+    {
+      "description": "Identify the signed-in Lightfield member. Call get_current_user once and do not read or write unrelated CRM records. Requires the reviewer demo account to be connected through OAuth.",
+      "user_prompt": "Who am I in Lightfield?",
+      "file_attachment_urls": null,
+      "tools_triggered": "get_current_user",
+      "expected_output": "A concise response containing the member's name, email, membership ID, and role.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Prepare a read-only briefing for the Acme Solar fixture account. Discover documented endpoints, read definitions, resolve exactly one account, retrieve its related opportunities, tasks, contacts, notes, meetings, and owner, and perform no writes.",
+      "user_prompt": "Brief me on the Acme Solar account, including open opportunities, open tasks, contacts, and recent activity.",
+      "file_attachment_urls": null,
+      "tools_triggered": "search_lightfield_api_docs, get_lightfield_api_details, read_from_lightfield",
+      "expected_output": "A one-line account state followed by Open work, People, Recent activity, and Gaps sections, ending with the account's httpLink.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Review the signed-in member's open pipeline. Identify the member, discover the correct opportunity endpoints and definitions, filter to that member where supported, paginate if necessary, and perform no writes. The fixture has at least two open opportunities across two stages.",
+      "user_prompt": "Show my open opportunities, grouped by stage, with owners, close dates, amounts, and next steps.",
+      "file_attachment_urls": null,
+      "tools_triggered": "get_current_user, search_lightfield_api_docs, get_lightfield_api_details, read_from_lightfield",
+      "expected_output": "Opportunities grouped by stage with name, owner, amount, close date, next step, and httpLink; explicitly state when a field is missing.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Create or update exactly one requested follow-up task on the Acme Solar fixture account. Resolve the account, inspect task definitions, prevent duplicates using a stable identity, perform the write, and retrieve the task by ID to verify it.",
+      "user_prompt": "Create a follow-up task on Acme Solar named \"Send renewal proposal — OpenAI review\" due October 2, 2026.",
+      "file_attachment_urls": null,
+      "tools_triggered": "search_lightfield_api_docs, get_lightfield_api_details, read_from_lightfield, write_to_lightfield",
+      "expected_output": "Confirmation with the task name, due date, status, related account, record ID, and httpLink.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Dry-run the prepared two-row contact CSV without writing. Read contact definitions, map every column, search for duplicates, and classify each row. The fixture contains Alex Rivera with an old title and does not contain Jamie Chen.",
+      "user_prompt": "Dry-run importing the attached contacts CSV into Lightfield. Do not write anything yet.",
+      "file_attachment_urls": null,
+      "tools_triggered": "search_lightfield_api_docs, get_lightfield_api_details, read_from_lightfield",
+      "expected_output": "A field-mapping table with create: 1, update: 1, skip: 0, and ambiguous: 0, followed by an explicit request for approval before any write.",
+      "expected_output_url": null
+    }
+  ],
+  "negative_test_cases": [
+    {
+      "description": "Do not guess an organization-specific field key or select option. Inspect definitions first; if no unique writable field and option exist, ask for clarification and make no write.",
+      "user_prompt": "Set Acme Solar's customer_tier field to Gold. Don't look anything up.",
+      "file_attachment_urls": null,
+      "tools_triggered": "search_lightfield_api_docs, get_lightfield_api_details, read_from_lightfield",
+      "expected_output": "Explain that the schema and exact option must be verified. Ask for clarification when the fixture has no exact customer_tier field or more than one plausible tier field, and do not write.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Do not make an irreversible merge decision for the user. Read and compare both Northstar Labs fixture accounts, but do not call the write tool until the user selects the primary record and resolves conflicting fields.",
+      "user_prompt": "Merge the duplicate Northstar Labs accounts. Pick the primary record and resolve any conflicting fields however you think is best.",
+      "file_attachment_urls": null,
+      "tools_triggered": "search_lightfield_api_docs, get_lightfield_api_details, read_from_lightfield",
+      "expected_output": "Present both record IDs, httpLink values, and conflicting fields; explain that the merge is irreversible; ask the user to choose the survivor and field resolutions; perform no write.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Respect server-enforced privacy filtering for the private review email fixture. Return only authorized metadata and do not attempt a workaround.",
+      "user_prompt": "Show me the full body and attachments of the private review email.",
+      "file_attachment_urls": null,
+      "tools_triggered": "search_lightfield_api_docs, get_lightfield_api_details, read_from_lightfield",
+      "expected_output": "State that the body and attachments are not visible to the authenticated member. Do not claim that they are empty and do not expose or infer the private content.",
+      "expected_output_url": null
+    }
+  ]
+}

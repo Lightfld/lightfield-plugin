@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lightfield Integration"
+  short_description: "Build a production-ready API integration"
+  default_prompt: "Use $lightfield-integration to build a Lightfield API integration."

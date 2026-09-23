@@ -1,0 +1,47 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "lightfield",
+  "version": "1.0.0",
+  "description": "Read and write Lightfield CRM data and build integrations with the official MCP server, SDKs, and API.",
+  "author": {
+    "name": "Lightfield",
+    "url": "https://lightfield.app"
+  },
+  "homepage": "https://docs.lightfield.app",
+  "repository": "https://github.com/Lightfld/lightfield-plugin",
+  "license": "MIT",
+  "keywords": [
+    "lightfield",
+    "crm",
+    "sales",
+    "mcp",
+    "api"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Lightfield",
+        "shortDescription": "Work with your Lightfield CRM",
+        "longDescription": "Find and update CRM records, prepare account briefings, import data safely, and build integrations with Lightfield's official MCP server and API.",
+        "developerName": "Lightfield",
+        "category": "Business & Operations",
+        "capabilities": [
+          "Read",
+          "Write"
+        ],
+        "websiteURL": "https://lightfield.app",
+        "supportURL": "https://github.com/Lightfld/lightfield-plugin/issues",
+        "privacyPolicyURL": "https://lightfield.app/privacy",
+        "termsOfServiceURL": "https://lightfield.app/terms",
+        "defaultPrompt": [
+          "Brief me on an account in Lightfield.",
+          "Show my open opportunities and next steps.",
+          "Help me safely import contacts into Lightfield."
+        ],
+        "brandColor": "#5DA8F5",
+        "composerIcon": "./assets/logo.png",
+        "logo": "./assets/logo.png"
+      }
+    }
+  }
+}

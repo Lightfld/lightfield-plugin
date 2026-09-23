@@ -1,0 +1,12 @@
+{
+  "artifactName": "lightfield-grok",
+  "versionManifest": ".grok-plugin/plugin.json",
+  "include": [
+    ".grok-plugin",
+    ".mcp.json",
+    "commands",
+    "skills",
+    "assets",
+    "LICENSE"
+  ]
+}

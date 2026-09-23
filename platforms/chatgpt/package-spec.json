@@ -1,0 +1,11 @@
+{
+  "artifactName": "lightfield-chatgpt",
+  "versionManifest": "plugin.json",
+  "include": [
+    "plugin.json",
+    "mcp.json",
+    "skills",
+    "assets",
+    "LICENSE"
+  ]
+}

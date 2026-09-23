@@ -1,0 +1,4 @@
+title,status,due_at,description,account,assigned_to_email
+Review Acme Solar pricing,TODO,2026-09-15T17:00:00-06:00,Validate renewal pricing before the proposal is sent.,Acme Solar,REPLACE_WITH_REVIEWER_EMAIL
+Confirm Acme Solar security review,IN_PROGRESS,2026-10-10T17:00:00-06:00,Collect outstanding security questions from the customer.,Acme Solar,REPLACE_WITH_REVIEWER_EMAIL
+Prepare Beacon Robotics discovery,TODO,2026-10-15T17:00:00-06:00,Prepare the agenda and technical discovery questions.,Beacon Robotics,REPLACE_WITH_REVIEWER_EMAIL

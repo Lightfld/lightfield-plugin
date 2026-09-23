@@ -1,0 +1,11 @@
+interface:
+  display_name: "Lightfield Import"
+  short_description: "Safely import CSV or JSON CRM records"
+  default_prompt: "Use $lightfield-import to dry-run importing these records."
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "lightfield"
+      description: "Read definitions, find duplicates, and write approved CRM records"
+      transport: "streamable_http"
+      url: "https://mcp.lightfield.app/mcp"
