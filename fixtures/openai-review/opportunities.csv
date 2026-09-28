@@ -1,0 +1,3 @@
+name,account,stage,amount,close_date,next_step,owner_email
+Acme Solar Renewal,Acme Solar,Proposal,75000,2026-10-31,Send renewal proposal and confirm security review,REPLACE_WITH_REVIEWER_EMAIL
+Beacon Robotics Expansion,Beacon Robotics,Discovery,45000,2026-11-15,Schedule technical discovery with engineering,REPLACE_WITH_REVIEWER_EMAIL

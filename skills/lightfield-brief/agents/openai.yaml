@@ -1,0 +1,11 @@
+interface:
+  display_name: "Lightfield Brief"
+  short_description: "Prepare an account or opportunity brief"
+  default_prompt: "Use $lightfield-brief to brief me on an account or opportunity."
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "lightfield"
+      description: "Read Lightfield CRM records and current object definitions"
+      transport: "streamable_http"
+      url: "https://mcp.lightfield.app/mcp"

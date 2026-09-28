@@ -1,0 +1,11 @@
+interface:
+  display_name: "Lightfield"
+  short_description: "Choose the right Lightfield workflow"
+  default_prompt: "Use $lightfield to help me work with Lightfield."
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "lightfield"
+      description: "Read and write CRM data and look up current Lightfield API documentation"
+      transport: "streamable_http"
+      url: "https://mcp.lightfield.app/mcp"

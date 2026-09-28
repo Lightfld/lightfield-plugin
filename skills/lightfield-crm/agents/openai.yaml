@@ -1,0 +1,11 @@
+interface:
+  display_name: "Lightfield CRM"
+  short_description: "Read and update Lightfield CRM records"
+  default_prompt: "Use $lightfield-crm to find or update records in Lightfield."
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "lightfield"
+      description: "Read and write CRM data and look up current Lightfield API documentation"
+      transport: "streamable_http"
+      url: "https://mcp.lightfield.app/mcp"

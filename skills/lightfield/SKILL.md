@@ -55,9 +55,10 @@ These hold on both paths. Violating them is the usual cause of a wrong write.
 ## Connecting
 
 **MCP (no API key):** Streamable HTTP with OAuth 2.1 at
-`https://mcp.lightfield.app/mcp`. This plugin ships that server in its
-`.mcp.json`, so installing the plugin is enough. Approve the OAuth prompt on
-first use. Tools: `get_current_user`, `search_lightfield_api_docs`,
+`https://mcp.lightfield.app/mcp`. This plugin declares that server in root
+`mcp.json` for the portable ChatGPT/Codex package and in `.mcp.json` for Grok,
+so installing either plugin format is enough. Approve the OAuth prompt on first
+use. Tools: `get_current_user`, `search_lightfield_api_docs`,
 `get_lightfield_api_details`, `read_from_lightfield`, `write_to_lightfield`.
 Access is scoped to the signed-in member's own permissions.
 
@@ -82,9 +83,14 @@ any model's training data. Useful pages:
 Any page is available as markdown by appending `/index.md` to its path, e.g.
 <https://docs.lightfield.app/using-the-api/errors/index.md>.
 
-## Commands in this plugin
+## Workflows in this plugin
 
-- `/lightfield-doctor`: check the MCP connection and API key, and report scopes.
-- `/lightfield-brief`: assemble a briefing on an account or opportunity.
-- `/lightfield-import`: load records from a local file, deduped and rate-limited.
-- `/lightfield-integration`: scaffold a production-shaped API integration.
+Route recognizable user goals to the focused bundled skill:
+
+- `lightfield-doctor`: diagnose the MCP connection, OAuth, API key, and scopes.
+- `lightfield-brief`: assemble a briefing on an account or opportunity.
+- `lightfield-import`: import CSV or JSON records with a dry run and dedupe.
+- `lightfield-integration`: scaffold a production-shaped API integration.
+
+ChatGPT and Codex activate these workflows as skills from the user's intent.
+Grok exposes the equivalent workflows as slash commands under `commands/`.
